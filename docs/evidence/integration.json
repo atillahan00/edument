@@ -1,0 +1,39 @@
+{
+  "at": "2026-09-12T13:47:14.999Z",
+  "besu": true,
+  "mode": "single",
+  "checks": [
+    "RBAC",
+    "immutable-profile-v1-v2",
+    "real-outbox-transactions",
+    "outbox-idempotency",
+    "achievement-approval",
+    "document-byte-match-and-mismatch",
+    "private-QR",
+    "real-matcher",
+    "minor-institution-approval",
+    "participant-only-messaging",
+    "report-closes-conversation",
+    "consent-withdrawal",
+    "logout-invalidation"
+  ],
+  "proofs": [
+    {
+      "kind": "PROFILE",
+      "version": 2,
+      "transaction": "0x321723c7d6f53fbfe3a9488a0a431ccdc17c58cce69acd0257de2f94c03dfa0a",
+      "block": 1297
+    },
+    {
+      "kind": "PROFILE",
+      "version": 1,
+      "transaction": "0xa11137c1403affb93b3ba43568af871e30aef38d6bc457d4800fdaf92b886f00",
+      "block": 1295
+    },
+    {
+      "kind": "ACHIEVEMENT",
+      "transaction": "0x59afaa46915e4c700f2095a64412c607831f0f9e50336b83f0c50ed3b327af47",
+      "block": 1300
+    }
+  ]
+}

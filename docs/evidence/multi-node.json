@@ -1,0 +1,58 @@
+{
+  "at": "2026-09-12T13:13:50.627Z",
+  "validated": true,
+  "chainId": 1338,
+  "contractAddress": "0xCd23ae24f24BEDAF1f0a84709a6510821d48B78f",
+  "transactionHash": "0xa2800da630cdaeca9df88206ce966aec55511ce10fd3d2fe8f8685d73f6baa45",
+  "blockNumber": 11,
+  "nodes": [
+    {
+      "name": "Düğüm 1",
+      "url": "http://127.0.0.1:8551",
+      "online": true,
+      "latencyMs": 22,
+      "checkedAt": "2026-09-12T13:13:50.601Z",
+      "chainId": 1338,
+      "block": 11,
+      "genesis": "0x4745f27f155587bdb5738131ccce0f3c198d1939e892b8427034c0c818cbad12",
+      "peers": 3,
+      "validators": 4
+    },
+    {
+      "name": "Düğüm 2",
+      "url": "http://127.0.0.1:8552",
+      "online": true,
+      "latencyMs": 23,
+      "checkedAt": "2026-09-12T13:13:50.601Z",
+      "chainId": 1338,
+      "block": 11,
+      "genesis": "0x4745f27f155587bdb5738131ccce0f3c198d1939e892b8427034c0c818cbad12",
+      "peers": 3,
+      "validators": 4
+    },
+    {
+      "name": "Düğüm 3",
+      "url": "http://127.0.0.1:8553",
+      "online": true,
+      "latencyMs": 24,
+      "checkedAt": "2026-09-12T13:13:50.602Z",
+      "chainId": 1338,
+      "block": 11,
+      "genesis": "0x4745f27f155587bdb5738131ccce0f3c198d1939e892b8427034c0c818cbad12",
+      "peers": 3,
+      "validators": 4
+    },
+    {
+      "name": "Düğüm 4",
+      "url": "http://127.0.0.1:8554",
+      "online": true,
+      "latencyMs": 24,
+      "checkedAt": "2026-09-12T13:13:50.602Z",
+      "chainId": 1338,
+      "block": 11,
+      "genesis": "0x4745f27f155587bdb5738131ccce0f3c198d1939e892b8427034c0c818cbad12",
+      "peers": 3,
+      "validators": 4
+    }
+  ]
+}

@@ -1,0 +1,249 @@
+[
+  {
+    "id": "6a795508-e5f5-4785-954d-5f8c63a26ad1",
+    "name": "Bütünlük ve blokzincir ölçümü",
+    "kind": "DOCUMENT",
+    "config": {
+      "mode": "single",
+      "seed": 2204,
+      "chainId": 1337,
+      "samples": 3
+    },
+    "result": {
+      "nodes": [
+        {
+          "url": "http://127.0.0.1:8545",
+          "name": "Düğüm 1",
+          "block": 985,
+          "peers": 0,
+          "online": true,
+          "chainId": 1337,
+          "genesis": "0xcfd6d60d6488c29b67fb7227fdb3d8193d90b9810355c837af5ac11cd618c59d",
+          "checkedAt": "2026-09-12T13:36:44.360Z",
+          "latencyMs": 29,
+          "validators": 1
+        }
+      ],
+      "proofs": [
+        {
+          "recordId": "0xe737473a642c6cd63c85bd5364123bea8446789e5959979cb3a07d5d51e4468c",
+          "blockNumber": 986,
+          "originalValid": true,
+          "transactionHash": "0xe60bcca16b7ae4ca4cb474048ace6bcb31eb7b46ebd7cffbce56bccf0b3bad29",
+          "modifiedDetected": true,
+          "documentOriginalValid": true,
+          "documentModificationDetected": true
+        },
+        {
+          "recordId": "0x06c5f498a57f7c44fc232d8a0b6084475deb312fe0100cb2b1da6c96c0c3866c",
+          "blockNumber": 987,
+          "originalValid": true,
+          "transactionHash": "0x08ca7b89309bfe0b0e8645387205e0a48dadfa4bd7f7f45ebd912707d1be0bcd",
+          "modifiedDetected": true,
+          "documentOriginalValid": true,
+          "documentModificationDetected": true
+        },
+        {
+          "recordId": "0xa128d396d991e0a632a57fe1d9a598453a4390d1b606dbffe884afc5ec473dff",
+          "blockNumber": 988,
+          "originalValid": true,
+          "transactionHash": "0xb680c0b57772e2af1b4aa9674ef5288762eda73c80e8fc697550f16cfed25477",
+          "modifiedDetected": true,
+          "documentOriginalValid": true,
+          "documentModificationDetected": true
+        }
+      ],
+      "warning": "Küçük, sıralı yerel yük ölçümü; genel performans veya merkeziyetsizlik kanıtı değildir.",
+      "software": {
+        "node": "v24.16.0"
+      },
+      "databaseMs": {
+        "p95": 2.798600000000079,
+        "mean": 1.657133333333604,
+        "median": 1.228700000000572
+      },
+      "successRate": 1,
+      "blockchainMs": {
+        "p95": 2201.2688,
+        "mean": 1851.9149,
+        "median": 1687.1776
+      },
+      "combinedMeanMs": 1853.572033333333,
+      "transactionsPerSecond": 0.5399816157859091
+    },
+    "createdAt": "2026-09-12T13:36:50.130Z"
+  },
+  {
+    "id": "49c4c944-b128-4e6f-8d1b-4443835d4209",
+    "name": "Bütünlük ve blokzincir ölçümü",
+    "kind": "VERSIONS",
+    "config": {
+      "mode": "single",
+      "seed": 2204,
+      "chainId": 1337,
+      "samples": 3
+    },
+    "result": {
+      "nodes": [
+        {
+          "url": "http://127.0.0.1:8545",
+          "name": "Düğüm 1",
+          "block": 988,
+          "peers": 0,
+          "online": true,
+          "chainId": 1337,
+          "genesis": "0xcfd6d60d6488c29b67fb7227fdb3d8193d90b9810355c837af5ac11cd618c59d",
+          "checkedAt": "2026-09-12T13:36:50.132Z",
+          "latencyMs": 26,
+          "validators": 1
+        }
+      ],
+      "proofs": [
+        {
+          "version": 1,
+          "recordId": "0xb8d55c5643be8ff2bb92d726451d5b0aea7816e322e662160166c7ae4176f20c",
+          "blockNumber": 989,
+          "chainStatus": 2,
+          "originalValid": true,
+          "transactionHash": "0x372281e7bb56d7d120ca1073bf805446f7a1286d230ff371e27decf63e8ee8ea",
+          "modifiedDetected": true
+        },
+        {
+          "version": 2,
+          "recordId": "0x0e2084c5a816df3e543076f99f9db50feb0256cb22455e10dd7bd3018a1bcdb6",
+          "blockNumber": 990,
+          "chainStatus": 2,
+          "originalValid": true,
+          "transactionHash": "0x163e8c0773b8c8b52415d2580399454e07568cf909944dadcfa2a583cfb635e4",
+          "modifiedDetected": true
+        },
+        {
+          "version": 3,
+          "recordId": "0x13635a6ed085609f61934b8e88388890c0d216f52976c339c64ab96246879ce4",
+          "blockNumber": 991,
+          "chainStatus": 1,
+          "originalValid": true,
+          "transactionHash": "0x186a0fd9b8c628cc7d5ba8b892216b74f23f825d046e8566e7293b99b1698250",
+          "modifiedDetected": true
+        }
+      ],
+      "warning": "Küçük, sıralı yerel yük ölçümü; genel performans veya merkeziyetsizlik kanıtı değildir.",
+      "software": {
+        "node": "v24.16.0"
+      },
+      "databaseMs": {
+        "p95": 1.121399999999994,
+        "mean": 0.9719333333335575,
+        "median": 0.9531999999999243
+      },
+      "successRate": 1,
+      "blockchainMs": {
+        "p95": 2203.2814,
+        "mean": 2024.9841,
+        "median": 2189.638099999999
+      },
+      "combinedMeanMs": 2025.956033333333,
+      "transactionsPerSecond": 0.4938310379819772
+    },
+    "createdAt": "2026-09-12T13:36:56.369Z"
+  },
+  {
+    "id": "b1225706-bd53-4bd1-b778-56c191f41dfd",
+    "name": "Bütünlük ve blokzincir ölçümü",
+    "kind": "OVERHEAD",
+    "config": {
+      "mode": "single",
+      "seed": 2204,
+      "chainId": 1337,
+      "samples": 3
+    },
+    "result": {
+      "nodes": [
+        {
+          "url": "http://127.0.0.1:8545",
+          "name": "Düğüm 1",
+          "block": 991,
+          "peers": 0,
+          "online": true,
+          "chainId": 1337,
+          "genesis": "0xcfd6d60d6488c29b67fb7227fdb3d8193d90b9810355c837af5ac11cd618c59d",
+          "checkedAt": "2026-09-12T13:36:56.370Z",
+          "latencyMs": 27,
+          "validators": 1
+        }
+      ],
+      "proofs": [
+        {
+          "recordId": "0x2ea50d031999449c5104d782cce42176bfb2bcbfae3025fb27a26fb8b0e8a70b",
+          "blockNumber": 992,
+          "originalValid": true,
+          "transactionHash": "0x383f679c05787165bc73dee9aa9a076ff7287059bbf01f1bec04dc6d2dd6a47f",
+          "modifiedDetected": true
+        },
+        {
+          "recordId": "0x07e9156f072118f77ad6d76dd283c7950f1413e91e739f00d8d9e188b5de3879",
+          "blockNumber": 993,
+          "originalValid": true,
+          "transactionHash": "0x04028ef52dd41d8a3858e0f7f380bdde3d6d5e84d596109bc7455916db8150e6",
+          "modifiedDetected": true
+        },
+        {
+          "recordId": "0x1ce6aa3f70b2016bda53fb3802ddfd6567ae51192213ebee62a0f2c9da764bef",
+          "blockNumber": 994,
+          "originalValid": true,
+          "transactionHash": "0xca1719a7f017122ce83ab5140ee97fbdaabf4fabf61375b20ed08811ce2e41c0",
+          "modifiedDetected": true
+        }
+      ],
+      "warning": "Küçük, sıralı yerel yük ölçümü; genel performans veya merkeziyetsizlik kanıtı değildir.",
+      "software": {
+        "node": "v24.16.0"
+      },
+      "databaseMs": {
+        "p95": 1.09690000000046,
+        "mean": 1.02073333333404,
+        "median": 1.093600000000151
+      },
+      "successRate": 1,
+      "blockchainMs": {
+        "p95": 2217.246800000001,
+        "mean": 2032.1756,
+        "median": 2199.0851
+      },
+      "combinedMeanMs": 2033.196333333334,
+      "transactionsPerSecond": 0.4920834597167685
+    },
+    "createdAt": "2026-09-12T13:37:02.580Z"
+  },
+  {
+    "id": "a2284d92-3fdc-4c68-962e-c0620c372301",
+    "name": "Mentor sıralama karşılaştırması",
+    "kind": "MATCHING",
+    "config": {
+      "mode": "single",
+      "seed": 2204,
+      "samples": 3
+    },
+    "result": {
+      "seed": 2204,
+      "metrics": {
+        "baseline": {
+          "mrr": 0.4583333333333333,
+          "ndcg": 0.254167327490457,
+          "recall": 0.2666666666666667,
+          "precision": 0.2666666666666667
+        },
+        "weighted": {
+          "mrr": 1,
+          "ndcg": 0.9562649741625527,
+          "recall": 0.9333333333333332,
+          "precision": 0.6666666666666666
+        }
+      },
+      "warning": "Sentetik sonuçlar gerçek mentorluk başarısını göstermez.",
+      "labelRule": "Hedef uzmanlığı ve ortak zaman; sentetik uygunluk etiketi",
+      "sampleCount": 3
+    },
+    "createdAt": "2026-09-12T13:37:02.610Z"
+  }
+]

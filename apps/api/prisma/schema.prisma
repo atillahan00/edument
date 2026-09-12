@@ -1,0 +1,308 @@
+generator client {
+  provider = "prisma-client"
+  output = "../generated/prisma"
+  moduleFormat = "cjs"
+}
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+enum Role {
+  STUDENT
+  MENTOR
+  VERIFIER
+  ADMIN
+}
+enum JobState {
+  PENDING
+  SUBMITTED
+  CONFIRMED
+  FAILED
+  RETRYING
+}
+enum AchievementState {
+  PENDING
+  APPROVED
+  REJECTED
+  REVISION_REQUIRED
+  REVOKED
+}
+enum ConnectionState {
+  PENDING
+  MENTOR_ACCEPTED
+  APPROVED
+  REJECTED
+  CANCELLED
+  CLOSED
+}
+model User {
+  id String @id @default(uuid()) @db.Uuid
+  email String @unique
+  passwordHash String
+  name String
+  role Role @default(STUDENT)
+  active Boolean @default(false)
+  minor Boolean @default(true)
+  demoSeedBatchId String? @db.Uuid
+  createdAt DateTime @default(now())
+  sessions Session[]
+  memberships UserInstitution[]
+  consent ConsentRecord[]
+  privacy PrivacyPreference?
+  profile StudentProfile?
+  mentor MentorProfile?
+  achievements Achievement[]
+  @@index([role, active])
+}
+model Institution {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  createdAt DateTime @default(now())
+  members UserInstitution[]
+  achievements Achievement[]
+}
+model UserInstitution {
+  userId String @db.Uuid
+  institutionId String @db.Uuid
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  institution Institution @relation(fields:[institutionId],references:[id])
+  @@id([userId,institutionId])
+  @@index([institutionId])
+}
+model Session {
+  id String @id @default(uuid()) @db.Uuid
+  tokenHash String @unique
+  userId String @db.Uuid
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  @@index([expiresAt])
+}
+model ConsentRecord {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  type String
+  policyVersion String
+  granted Boolean
+  actorId String @db.Uuid
+  createdAt DateTime @default(now())
+  @@index([userId,type,createdAt])
+}
+model PrivacyPreference {
+  userId String @id @db.Uuid
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  settings Json
+  updatedAt DateTime @updatedAt
+}
+model StudentProfile {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @unique @db.Uuid
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  versions RecordVersion[]
+}
+model MentorProfile {
+  userId String @id @db.Uuid
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  data Json
+  verified Boolean @default(false)
+  verifiedBy String? @db.Uuid
+  verifiedAt DateTime?
+  updatedAt DateTime @updatedAt
+  @@index([verified])
+}
+model Achievement {
+  id String @id @default(uuid()) @db.Uuid
+  userId String @db.Uuid
+  user User @relation(fields:[userId],references:[id],onDelete:Cascade)
+  institutionId String @db.Uuid
+  institution Institution @relation(fields:[institutionId],references:[id])
+  status AchievementState @default(PENDING)
+  createdAt DateTime @default(now())
+  versions RecordVersion[]
+  decisions VerificationDecision[]
+  @@index([status, institutionId, createdAt])
+  @@index([userId,createdAt])
+}
+model RecordVersion {
+  id String @id @default(uuid()) @db.Uuid
+  ownerId String @db.Uuid
+  profileId String? @db.Uuid
+  profile StudentProfile? @relation(fields:[profileId],references:[id],onDelete:Cascade)
+  achievementId String? @db.Uuid
+  achievement Achievement? @relation(fields:[achievementId],references:[id],onDelete:Cascade)
+  type String
+  version Int
+  snapshot Json
+  contentHash String
+  previousId String? @db.Uuid
+  createdAt DateTime @default(now())
+  evidence AchievementEvidence?
+  anchor BlockchainAnchor?
+  decisions VerificationDecision[]
+  @@unique([profileId,version])
+  @@unique([achievementId,version])
+  @@index([ownerId,createdAt])
+}
+model AchievementEvidence {
+  id String @id @default(uuid()) @db.Uuid
+  versionId String @unique @db.Uuid
+  version RecordVersion @relation(fields:[versionId],references:[id],onDelete:Cascade)
+  objectKey String @unique
+  mime String
+  size Int
+  hash String
+  createdAt DateTime @default(now())
+}
+model VerificationDecision {
+  id String @id @default(uuid()) @db.Uuid
+  achievementId String @db.Uuid
+  achievement Achievement @relation(fields:[achievementId],references:[id],onDelete:Cascade)
+  versionId String @db.Uuid
+  version RecordVersion @relation(fields:[versionId],references:[id],onDelete:Cascade)
+  actorId String @db.Uuid
+  decision String
+  note String
+  createdAt DateTime @default(now())
+  @@index([achievementId,createdAt])
+}
+model BlockchainAnchor {
+  id String @id @default(uuid()) @db.Uuid
+  versionId String @unique @db.Uuid
+  version RecordVersion @relation(fields:[versionId],references:[id],onDelete:Cascade)
+  recordId String @unique
+  subjectRef String
+  previousRecordId String
+  chainVersion Int
+  chainId Int
+  contractAddress String
+  publicToken String @unique
+  status JobState @default(PENDING)
+  revoked Boolean @default(false)
+  transactions BlockchainTransaction[]
+  jobs BlockchainOutbox[]
+  createdAt DateTime @default(now())
+  @@index([status])
+}
+model BlockchainOutbox {
+  id String @id @default(uuid()) @db.Uuid
+  anchorId String @db.Uuid
+  anchor BlockchainAnchor @relation(fields:[anchorId],references:[id],onDelete:Cascade)
+  operation String @default("ANCHOR")
+  status JobState @default(PENDING)
+  attempts Int @default(0)
+  nextAttemptAt DateTime @default(now())
+  error String?
+  createdAt DateTime @default(now())
+  transactions BlockchainTransaction[]
+  @@unique([anchorId,operation])
+  @@index([status,nextAttemptAt])
+}
+model BlockchainTransaction {
+  id String @id @default(uuid()) @db.Uuid
+  anchorId String @db.Uuid
+  anchor BlockchainAnchor @relation(fields:[anchorId],references:[id],onDelete:Cascade)
+  jobId String @db.Uuid
+  job BlockchainOutbox @relation(fields:[jobId],references:[id],onDelete:Cascade)
+  hash String @unique
+  rawTransaction String
+  nonce Int
+  blockNumber Int?
+  receipt Json?
+  createdAt DateTime @default(now())
+}
+model BlockchainNodeHealth {
+  url String @id
+  state Json
+  checkedAt DateTime @updatedAt
+}
+model MentorRecommendation {
+  id String @id @default(uuid()) @db.Uuid
+  studentId String @db.Uuid
+  mentorId String @db.Uuid
+  result Json
+  createdAt DateTime @default(now())
+  @@index([studentId,createdAt])
+}
+model MentorConnectionRequest {
+  id String @id @default(uuid()) @db.Uuid
+  studentId String @db.Uuid
+  mentorId String @db.Uuid
+  state ConnectionState @default(PENDING)
+  note String
+  institutionApprovedBy String? @db.Uuid
+  createdAt DateTime @default(now())
+  conversation Conversation?
+  feedback MentoringFeedback[]
+  @@unique([studentId,mentorId])
+  @@index([mentorId,state])
+}
+model Conversation {
+  id String @id @default(uuid()) @db.Uuid
+  connectionId String @unique @db.Uuid
+  connection MentorConnectionRequest @relation(fields:[connectionId],references:[id],onDelete:Cascade)
+  closed Boolean @default(false)
+  messages Message[]
+  reports ConversationReport[]
+}
+model Message {
+  id String @id @default(uuid()) @db.Uuid
+  conversationId String @db.Uuid
+  conversation Conversation @relation(fields:[conversationId],references:[id],onDelete:Cascade)
+  senderId String @db.Uuid
+  body String
+  readAt DateTime?
+  createdAt DateTime @default(now())
+  @@index([conversationId,createdAt])
+}
+model ConversationReport {
+  id String @id @default(uuid()) @db.Uuid
+  conversationId String @db.Uuid
+  conversation Conversation @relation(fields:[conversationId],references:[id],onDelete:Cascade)
+  actorId String @db.Uuid
+  reason String
+  createdAt DateTime @default(now())
+}
+model MentoringFeedback {
+  id String @id @default(uuid()) @db.Uuid
+  connectionId String @db.Uuid
+  connection MentorConnectionRequest @relation(fields:[connectionId],references:[id],onDelete:Cascade)
+  actorId String @db.Uuid
+  rating Int
+  progress Int
+  createdAt DateTime @default(now())
+  @@unique([connectionId,actorId])
+}
+model ApplicationAuditLog {
+  id String @id @default(uuid()) @db.Uuid
+  actorId String? @db.Uuid
+  action String
+  objectId String?
+  metadata Json
+  createdAt DateTime @default(now())
+  @@index([createdAt])
+}
+model Experiment {
+  id String @id @default(uuid()) @db.Uuid
+  name String
+  kind String
+  config Json
+  result Json
+  createdAt DateTime @default(now())
+}
+model ExperimentSample {
+  id String @id @default(uuid()) @db.Uuid
+  experimentId String @db.Uuid
+  content Json
+  @@index([experimentId])
+}
+model ApplicationSetting {
+  key String @id
+  value Json
+}
+model DemoSeedBatch {
+  id String @id @default(uuid()) @db.Uuid
+  seed Int
+  withChain Boolean @default(false)
+  createdAt DateTime @default(now())
+}

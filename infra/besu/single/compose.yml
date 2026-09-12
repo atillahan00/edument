@@ -1,0 +1,29 @@
+name: bilsem-chain-single
+services:
+  node1:
+    image: hyperledger/besu:26.8.1
+    command:
+      [
+        '--data-path=/var/lib/besu',
+        '--genesis-file=/config/genesis.json',
+        '--node-private-key-file=/keys/key',
+        '--rpc-http-enabled',
+        '--rpc-http-host=0.0.0.0',
+        '--rpc-http-api=ETH,NET,QBFT',
+        '--host-allowlist=*',
+        '--min-gas-price=0',
+        '--p2p-host=172.29.1.10',
+        '--discovery-enabled=false',
+      ]
+    ports: ['127.0.0.1:8545:8545']
+    volumes:
+      ['../generated/single:/config:ro', '../generated/single/node1:/keys:ro', 'node1-data:/var/lib/besu']
+    networks:
+      chain:
+        ipv4_address: 172.29.1.10
+volumes:
+  node1-data:
+networks:
+  chain:
+    ipam:
+      config: [{ subnet: 172.29.1.0/24 }]

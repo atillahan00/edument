@@ -1,0 +1,17 @@
+{
+  "at": "2026-09-12T13:52:47.303Z",
+  "counts": {
+    "students": 0,
+    "mentors": 0,
+    "achievements": 0,
+    "demoBatches": 0,
+    "administrators": 1
+  },
+  "services": {
+    "web": 200,
+    "api": 200,
+    "matcher": 200,
+    "minio": 200
+  },
+  "demoDataAbsent": true
+}

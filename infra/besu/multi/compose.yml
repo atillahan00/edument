@@ -1,0 +1,98 @@
+name: bilsem-chain-multi
+x-node: &node
+  image: hyperledger/besu:26.8.1
+  restart: unless-stopped
+services:
+  node1:
+    <<: *node
+    command:
+      [
+        '--data-path=/var/lib/besu',
+        '--genesis-file=/config/genesis.json',
+        '--node-private-key-file=/keys/key',
+        '--static-nodes-file=/keys/static-nodes.json',
+        '--rpc-http-enabled',
+        '--rpc-http-host=0.0.0.0',
+        '--rpc-http-api=ETH,NET,QBFT',
+        '--host-allowlist=*',
+        '--min-gas-price=0',
+        '--p2p-host=172.29.2.10',
+        '--discovery-enabled=false',
+      ]
+    ports: ['127.0.0.1:8551:8545']
+    volumes:
+      ['../generated/multi:/config:ro', '../generated/multi/node1:/keys:ro', 'node1-data:/var/lib/besu']
+    networks:
+      chain: { ipv4_address: 172.29.2.10 }
+  node2:
+    <<: *node
+    command:
+      [
+        '--data-path=/var/lib/besu',
+        '--genesis-file=/config/genesis.json',
+        '--node-private-key-file=/keys/key',
+        '--static-nodes-file=/keys/static-nodes.json',
+        '--rpc-http-enabled',
+        '--rpc-http-host=0.0.0.0',
+        '--rpc-http-api=ETH,NET,QBFT',
+        '--host-allowlist=*',
+        '--min-gas-price=0',
+        '--p2p-host=172.29.2.11',
+        '--discovery-enabled=false',
+      ]
+    ports: ['127.0.0.1:8552:8545']
+    volumes:
+      ['../generated/multi:/config:ro', '../generated/multi/node2:/keys:ro', 'node2-data:/var/lib/besu']
+    networks:
+      chain: { ipv4_address: 172.29.2.11 }
+  node3:
+    <<: *node
+    command:
+      [
+        '--data-path=/var/lib/besu',
+        '--genesis-file=/config/genesis.json',
+        '--node-private-key-file=/keys/key',
+        '--static-nodes-file=/keys/static-nodes.json',
+        '--rpc-http-enabled',
+        '--rpc-http-host=0.0.0.0',
+        '--rpc-http-api=ETH,NET,QBFT',
+        '--host-allowlist=*',
+        '--min-gas-price=0',
+        '--p2p-host=172.29.2.12',
+        '--discovery-enabled=false',
+      ]
+    ports: ['127.0.0.1:8553:8545']
+    volumes:
+      ['../generated/multi:/config:ro', '../generated/multi/node3:/keys:ro', 'node3-data:/var/lib/besu']
+    networks:
+      chain: { ipv4_address: 172.29.2.12 }
+  node4:
+    <<: *node
+    command:
+      [
+        '--data-path=/var/lib/besu',
+        '--genesis-file=/config/genesis.json',
+        '--node-private-key-file=/keys/key',
+        '--static-nodes-file=/keys/static-nodes.json',
+        '--rpc-http-enabled',
+        '--rpc-http-host=0.0.0.0',
+        '--rpc-http-api=ETH,NET,QBFT',
+        '--host-allowlist=*',
+        '--min-gas-price=0',
+        '--p2p-host=172.29.2.13',
+        '--discovery-enabled=false',
+      ]
+    ports: ['127.0.0.1:8554:8545']
+    volumes:
+      ['../generated/multi:/config:ro', '../generated/multi/node4:/keys:ro', 'node4-data:/var/lib/besu']
+    networks:
+      chain: { ipv4_address: 172.29.2.13 }
+volumes:
+  node1-data:
+  node2-data:
+  node3-data:
+  node4-data:
+networks:
+  chain:
+    ipam:
+      config: [{ subnet: 172.29.2.0/24 }]
