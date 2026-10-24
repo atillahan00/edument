@@ -75,7 +75,7 @@ describe('Authorization and privacy', () => {
     };
     const guard = new SessionGuard(db as any, { getAllAndOverride: () => false } as any);
     const context = {
-      switchToHttp: () => ({ getRequest: () => ({ cookies: { bilsem_session: 'token' } }) }),
+      switchToHttp: () => ({ getRequest: () => ({ cookies: { edument_session: 'token' } }) }),
       getHandler: () => null,
       getClass: () => null,
     };

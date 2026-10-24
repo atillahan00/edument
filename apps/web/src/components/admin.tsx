@@ -349,59 +349,90 @@ export function AdminHome() {
     if (weights.data) setValues(weights.data);
   }, [weights.data]);
   return (
-    <>
-      <div className="mentor-grid">
-        {[
-          '/admin/users',
-          '/admin/institutions',
-          '/admin/network',
-          '/admin/blockchain-jobs',
-          '/admin/audit',
-          '/research',
-        ].map((path) => (
-          <Link className="panel admin-link" href={path} key={path}>
-            <h2>{tr.pages[path]}</h2>
-            <span>Yönetim alanını aç →</span>
-          </Link>
-        ))}
-      </div>
-      <Panel title="Mentor öneri ağırlıkları">
-        <p className="muted">Tüm ağırlıklar 0–1 arasında olmalı ve toplamları 1 olmalıdır.</p>
-        {values && (
-          <div className="form-grid">
-            {Object.keys(values).map((k) => (
-              <label key={k}>
-                {tr.fields[k] || k}
-                <input
-                  type="number"
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  value={values[k]}
-                  onChange={(e) => setValues({ ...values, [k]: Number(e.target.value) })}
-                />
-              </label>
-            ))}
-            <Action path="settings/weights" method="PUT" body={values} onDone={weights.reload}>
-              Ağırlıkları kaydet
-            </Action>
-          </div>
-        )}
-      </Panel>
-      <Panel title="Görüşme güvenlik bildirimleri">
+    <div className="admin-workspace">
+      <section className="operations-index" aria-labelledby="operations-title">
+        <div className="section-heading">
+          <h2 id="operations-title">İşlemler</h2>
+          <span>Yönetim dizini</span>
+        </div>
+        <div className="operation-table">
+          {[
+            ['/admin/users', 'Başvurular, roller ve kurum üyelikleri'],
+            ['/admin/institutions', 'Kurum oluşturma ve kayıtlı kurumlar'],
+            ['/admin/network', 'Düğümler, bağlantılar ve ağ bilgisi'],
+            ['/admin/blockchain-jobs', 'Gönderilen kayıtlar ve işlem durumları'],
+            ['/admin/audit', 'Kullanıcı ve sistem işlem geçmişi'],
+            ['/research', 'Deneyler, ölçümler ve dışa aktarma'],
+          ].map(([path, description]) => (
+            <Link className="operation-row" href={path} key={path}>
+              <strong>{tr.pages[path]}</strong>
+              <span>{description}</span>
+              <span className="operation-open" aria-hidden="true">
+                Aç ↗
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+      <aside className="reports-column">
+        <div className="section-heading">
+          <h2>Görüşme bildirimleri</h2>
+        </div>
         <LoadingError {...reports} />
-        {reports.data?.length ? (
-          reports.data.map((r) => (
-            <div className="list-row" key={r.id}>
-              <p>{r.reason}</p>
-              <small>{date(r.createdAt)} · Görüşme kapatıldı</small>
-            </div>
-          ))
-        ) : (
-          <Empty>Henüz güvenlik bildirimi bulunmuyor.</Empty>
-        )}
-      </Panel>
-    </>
+        {reports.data?.length
+          ? reports.data.map((r) => (
+              <div className="report-entry" key={r.id}>
+                <p>{r.reason}</p>
+                <small>{date(r.createdAt)} · Görüşme kapatıldı</small>
+              </div>
+            ))
+          : !reports.loading &&
+            !reports.error && (
+              <div className="quiet-state">
+                <span className="status-marker" />
+                <p>İncelenecek bildirim yok.</p>
+                <small>Görüşmelere ilişkin güvenlik bildirimleri burada listelenir.</small>
+              </div>
+            )}
+      </aside>
+      <section className="weight-editor" aria-labelledby="weights-title">
+        <div className="settings-caption">
+          <h2 id="weights-title">Eşleştirme ayarları</h2>
+          <p>Mentor önerisinde kullanılan özellik ağırlıkları.</p>
+          <small>
+            Her değer 0–1 arasında olmalı. <br />
+            Ağırlıkların toplamı 1 olmalıdır.
+          </small>
+        </div>
+        <div className="settings-content">
+          <LoadingError {...weights} />
+          {values && (
+            <>
+              <div className="weight-rows">
+                {Object.keys(values).map((k) => (
+                  <label className="weight-row" key={k}>
+                    <span>{tr.fields[k] || k}</span>
+                    <input
+                      type="number"
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      value={values[k]}
+                      onChange={(e) => setValues({ ...values, [k]: Number(e.target.value) })}
+                    />
+                  </label>
+                ))}
+              </div>
+              <div className="settings-actions">
+                <Action path="settings/weights" method="PUT" body={values} onDone={weights.reload}>
+                  Ağırlıkları kaydet
+                </Action>
+              </div>
+            </>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }
 export function Research() {

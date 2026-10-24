@@ -276,14 +276,14 @@ export function PublicVerify({ token }: { token: string }) {
   return (
     <main className="public-page">
       <Link className="brand" href="/login">
-        <span className="brand-icon">B</span>BILSEM-Chain
+        <span className="brand-icon">E</span>EduMent
       </Link>
       <Panel title="Belge Doğrulama">
         <LoadingError {...source} />
         {source.data && (
           <>
             <Badge state={source.data.state} />
-            <h2>{source.data.title || 'BILSEM-Chain doğrulama kaydı'}</h2>
+            <h2>{source.data.title || 'EduMent doğrulama kaydı'}</h2>
             <p>
               {source.data.state === 'VALID'
                 ? 'Bu doğrulama bağlantısına ait dijital kaydın bütünlüğü doğrulandı.'

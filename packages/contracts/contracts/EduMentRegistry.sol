@@ -3,7 +3,7 @@ pragma solidity ^0.8.28;
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 
 /// @notice Stores integrity metadata only. Never submit personal information.
-contract BILSEMChainRegistry is AccessControl {
+contract EduMentRegistry is AccessControl {
     bytes32 public constant ANCHOR_ROLE = keccak256("ANCHOR_ROLE");
     bytes32 public constant VERIFIER_ROLE = keccak256("VERIFIER_ROLE");
     enum Status { Missing, Active, Superseded, Revoked }

@@ -4,7 +4,7 @@ export const tr = {
     type: 'Lütfen geçerli biçimde bir değer girin.',
     invalid: 'Lütfen belirtilen sınırlara uygun bir değer girin.',
   },
-  brand: 'BILSEM-Chain',
+  brand: 'EduMent',
   tagline: 'Gelişiminiz değerli. Kaydı güvenilir.',
   loading: 'Yükleniyor…',
   save: 'Kaydet',

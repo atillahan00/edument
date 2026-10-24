@@ -33,7 +33,7 @@ class RankRequest(BaseModel):
     mentors: list[Mentor] = Field(max_length=500)
     weights: dict[str, float] = Field(default_factory=lambda: WEIGHTS.copy())
 
-app = FastAPI(title="BILSEM-Chain Mentor Öneri Hizmeti", description="Kimlik ve hassas özellikler kullanılmaz.")
+app = FastAPI(title="EduMent Mentor Öneri Hizmeti", description="Kimlik ve hassas özellikler kullanılmaz.")
 
 @app.exception_handler(RequestValidationError)
 async def validation_error(_request, _error):

@@ -7,6 +7,7 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
     locale: 'tr-TR',
     browserName: 'chromium',
+    channel: process.env.PLAYWRIGHT_CHANNEL,
     headless: true,
     screenshot: 'only-on-failure',
   },

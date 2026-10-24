@@ -3,7 +3,7 @@ import path from 'node:path';
 import { spawn, spawnSync } from 'node:child_process';
 import dotenv from 'dotenv';
 dotenv.config({ quiet: true });
-const root = process.env.BILSEM_NATIVE_ROOT || process.cwd();
+const root = process.env.EDUMENT_NATIVE_ROOT || process.env.BILSEM_NATIVE_ROOT || process.cwd();
 fs.mkdirSync('.runtime/logs', { recursive: true });
 const executable = (relative) => path.join(root, relative);
 function start(name, command, args, env = {}) {
@@ -30,7 +30,7 @@ if (target === 'postgres' || target === 'all') {
         '-D',
         data,
         '-U',
-        'bilsem',
+        decodeURIComponent(new URL(process.env.DATABASE_URL).username),
         '--pwfile=' + executable('.runtime/pg-password'),
         '--auth=scram-sha-256',
         '--encoding=UTF8',
@@ -44,7 +44,7 @@ if (target === 'postgres' || target === 'all') {
   const result = spawnSync(
     'powershell.exe',
     ['-NoProfile', '-File', executable('scripts/portable-postgres.ps1'), 'start'],
-    { windowsHide: true, stdio: 'inherit', env: { ...process.env, BILSEM_NATIVE_ROOT: root } },
+    { windowsHide: true, stdio: 'inherit', env: { ...process.env, EDUMENT_NATIVE_ROOT: root } },
   );
   if (result.status) process.exit(result.status);
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@bilsem/api",
+  "name": "@edument/api",
   "private": true,
   "scripts": {
     "dev": "tsx watch src/main.ts",

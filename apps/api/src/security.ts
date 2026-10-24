@@ -41,7 +41,7 @@ export class SessionGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest<AuthRequest>();
     if (this.reflector.getAllAndOverride('public', [context.getHandler(), context.getClass()])) return true;
-    const token = request.cookies?.bilsem_session;
+    const token = request.cookies?.edument_session;
     if (typeof token !== 'string' || token.length > 100)
       throw new UnauthorizedException('Oturum açmanız gerekiyor.');
     const session = await this.db.session.findUnique({

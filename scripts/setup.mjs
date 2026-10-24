@@ -11,7 +11,7 @@ if (!fs.existsSync('.env')) {
       'BLOCKCHAIN_SIGNER_PRIVATE_KEY=',
       'BLOCKCHAIN_SIGNER_PRIVATE_KEY=' + Wallet.createRandom().privateKey,
     )
-    .replace('BILSEM_PSEUDONYM_SECRET=', 'BILSEM_PSEUDONYM_SECRET=' + randomBytes(32).toString('hex'))
+    .replace('EDUMENT_PSEUDONYM_SECRET=', 'EDUMENT_PSEUDONYM_SECRET=' + randomBytes(32).toString('hex'))
     .replace(
       'BOOTSTRAP_ADMIN_PASSWORD=',
       'BOOTSTRAP_ADMIN_PASSWORD=DevOnly9!' + randomBytes(16).toString('hex'),

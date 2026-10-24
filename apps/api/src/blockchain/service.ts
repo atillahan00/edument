@@ -7,6 +7,7 @@ import { required, contractAddress } from '../config';
 import { hashRecord, subjectReference } from '../hash';
 import { BlockchainProviderManager } from './provider';
 import { pollReceipt } from './receipt';
+import { Telemetry } from '../telemetry';
 export const registryAbi = [
   'function anchor(bytes32,bytes32,bytes32,bytes32,bytes32,bytes32,uint32)',
   'function revoke(bytes32)',
@@ -21,13 +22,16 @@ export class ChainService {
     process.env.BESU_WRITE_RPC_URL,
     process.env.BESU_GENESIS_HASH,
   );
-  constructor(@Inject(Database) readonly db: Database) {}
+  constructor(
+    @Inject(Database) readonly db: Database,
+    @Inject(Telemetry) private telemetry: Telemetry = new Telemetry(db),
+  ) {}
   async enqueue(tx: Prisma.TransactionClient, version: any, previous: any = null) {
     return tx.blockchainAnchor.create({
       data: {
         versionId: version.id,
         recordId: '0x' + randomBytes(32).toString('hex'),
-        subjectRef: subjectReference(version.ownerId, required('BILSEM_PSEUDONYM_SECRET')),
+        subjectRef: subjectReference(version.ownerId, required('EDUMENT_PSEUDONYM_SECRET')),
         previousRecordId: previous?.recordId || ZeroHash,
         chainVersion: (previous?.chainVersion || 0) + 1,
         chainId: Number(process.env.CHAIN_ID || 1337),
@@ -93,6 +97,13 @@ export class ChainService {
           },
         });
         if (!job) return;
+        const attemptStarted = Date.now();
+        this.telemetry.record('transaction.attempt', {
+          jobId: job.id,
+          queuedAt: job.createdAt.toISOString(),
+          ageMs: attemptStarted - job.createdAt.getTime(),
+          operation: job.operation,
+        });
         try {
           const a = job.anchor;
           if (
@@ -143,11 +154,17 @@ export class ChainService {
             transaction = await this.db.blockchainTransaction.create({
               data: { anchorId: a.id, jobId: job.id, rawTransaction: raw, hash: keccak256(raw), nonce },
             });
+            this.telemetry.record('transaction.signed', {
+              jobId: job.id,
+              hash: transaction.hash,
+              queueWaitMs: Date.now() - job.createdAt.getTime(),
+            });
           }
           let receipt = await provider.getTransactionReceipt(transaction.hash);
           if (!receipt) {
             try {
               await provider.broadcastTransaction(transaction.rawTransaction);
+              this.telemetry.record('transaction.broadcast', { jobId: job.id, hash: transaction.hash });
             } catch (error) {
               if (!(await provider.getTransaction(transaction.hash))) throw error;
             }
@@ -157,6 +174,11 @@ export class ChainService {
             receipt = await pollReceipt(provider, transaction.hash, 12000);
           }
           if (!receipt) {
+            this.telemetry.record('transaction.pending', {
+              jobId: job.id,
+              hash: transaction.hash,
+              observedWaitMs: Date.now() - attemptStarted,
+            });
             await this.db.blockchainOutbox.update({
               where: { id: job.id },
               data: { nextAttemptAt: new Date(Date.now() + 3000) },
@@ -190,6 +212,14 @@ export class ChainService {
               data: job.operation === 'REVOKE' ? { revoked: true } : { status: 'CONFIRMED' },
             }),
           ]);
+          this.telemetry.record('transaction.confirmed', {
+            jobId: job.id,
+            hash: transaction.hash,
+            blockNumber: receipt.blockNumber,
+            queuedAt: job.createdAt.toISOString(),
+            totalMs: Date.now() - job.createdAt.getTime(),
+            sinceSignedMs: Date.now() - transaction.createdAt.getTime(),
+          });
           console.log(
             JSON.stringify({
               level: 'info',
@@ -201,6 +231,15 @@ export class ChainService {
         } catch (error) {
           const terminal =
             job.attempts >= 7 || (error instanceof Error && error.message === 'TRANSACTION_REVERTED');
+          this.telemetry.record(terminal ? 'transaction.failed' : 'transaction.retry', {
+            jobId: job.id,
+            attempt: job.attempts + 1,
+            totalMs: Date.now() - job.createdAt.getTime(),
+            reason:
+              error instanceof Error && ['CHAIN_MISMATCH', 'TRANSACTION_REVERTED'].includes(error.message)
+                ? error.message
+                : 'RPC_OR_PROCESSING_ERROR',
+          });
           await this.db.blockchainOutbox.update({
             where: { id: job.id },
             data: {

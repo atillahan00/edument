@@ -66,7 +66,7 @@ export class AuthController {
     const token = randomBytes(32).toString('base64url');
     const expiresAt = new Date(Date.now() + 30 * 60 * 1000);
     await this.db.session.create({ data: { userId: user.id, tokenHash: sha256(token), expiresAt } });
-    response.cookie('bilsem_session', token, {
+    response.cookie('edument_session', token, {
       httpOnly: true,
       secure: process.env.COOKIE_SECURE === 'true',
       sameSite: 'strict',
@@ -83,8 +83,8 @@ export class AuthController {
   @Post('logout')
   @ApiOperation({ summary: 'Oturumu geçersiz kıl' })
   async logout(@Req() request: AuthRequest, @Res({ passthrough: true }) response: Response) {
-    await this.db.session.deleteMany({ where: { tokenHash: sha256(request.cookies.bilsem_session) } });
-    response.clearCookie('bilsem_session', { path: '/' });
+    await this.db.session.deleteMany({ where: { tokenHash: sha256(request.cookies.edument_session) } });
+    response.clearCookie('edument_session', { path: '/' });
     return { message: 'Oturum kapatıldı.' };
   }
 }

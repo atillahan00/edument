@@ -202,26 +202,14 @@ export function Dashboard({ user }: { user: any }) {
   }));
   return (
     <>
-      <section className="welcome">
-        <div>
-          <span className="eyebrow">GELİŞİM YOLCULUĞUNUZ</span>
-          <h2>Merhaba, {user.name.split(' ')[0]}.</h2>
-          <p>Bugünün küçük adımları, yarının büyük başarıları.</p>
-          <Link href="/profile/edit" className="button primary">
-            Profilimi geliştir <ArrowUpRight size={17} />
-          </Link>
-        </div>
-        <div className="welcome-art" aria-hidden="true">
-          <div className="orbit one" />
-          <div className="orbit two" />
-          <div className="orbit three" />
-          <div className="art-center">
-            <Layers size={42} />
-          </div>
-        </div>
-      </section>
+      <div className="record-toolbar">
+        <span>{user.name}</span>
+        <Link href="/profile/edit" className="text-button">
+          Profili düzenle <ArrowUpRight size={16} />
+        </Link>
+      </div>
       <LoadingError {...achievements} />
-      <div className="stats">
+      <div className="stats record-summary">
         {[
           [Award, 'Onaylanan başarı', verified.length],
           [Target, 'Gelişim hedefi', goals.length],
@@ -239,7 +227,7 @@ export function Dashboard({ user }: { user: any }) {
         ))}
       </div>
       <div className="two-columns">
-        <Panel title="Gelişiminizin izleri" action={<Link href="/profile/history">Geçmişi gör →</Link>}>
+        <Panel title="Profil gelişimi" action={<Link href="/profile/history">Geçmişi gör →</Link>}>
           {chart.length ? (
             <>
               <p className="muted">Profil sürümlerindeki beceri ve hedef sayıları</p>
@@ -254,14 +242,14 @@ export function Dashboard({ user }: { user: any }) {
                       isAnimationActive={false}
                       dataKey="beceri"
                       name="Öz değerlendirme becerisi"
-                      fill="#1e6b61"
+                      fill="var(--blue)"
                       radius={[5, 5, 0, 0]}
                     />
                     <Bar
                       isAnimationActive={false}
                       dataKey="hedef"
                       name="Hedef sayısı"
-                      fill="#c0d5bd"
+                      fill="var(--teal)"
                       radius={[5, 5, 0, 0]}
                     />
                   </BarChart>
@@ -269,13 +257,13 @@ export function Dashboard({ user }: { user: any }) {
               </div>
             </>
           ) : (
-            <Empty>İlk adım, profilinizi oluşturmak.</Empty>
+            <Empty>Henüz profil kaydı bulunmuyor.</Empty>
           )}
         </Panel>
         <Panel
           title="Hedeflerim"
           action={
-            <Link href="/profile/edit">
+            <Link href="/profile/edit" aria-label="Hedef ekle">
               <Plus size={18} />
             </Link>
           }
@@ -313,7 +301,7 @@ export function Dashboard({ user }: { user: any }) {
             </Link>
           ))
         ) : (
-          <Empty>Başarı yolculuğunuz burada görünür olacak.</Empty>
+          <Empty>Henüz başarı kaydı bulunmuyor.</Empty>
         )}
       </Panel>
     </>

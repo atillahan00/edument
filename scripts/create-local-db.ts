@@ -1,11 +1,12 @@
 import '../apps/api/src/config';
 import { Database } from '../apps/api/src/db';
 const url = new URL(process.env.DATABASE_URL!);
-if (!['127.0.0.1', 'localhost'].includes(url.hostname) || url.pathname !== '/bilsem')
-  throw new Error('Yalnızca yerel bilsem veritabanı oluşturulabilir.');
+if (!['127.0.0.1', 'localhost'].includes(url.hostname) || !['/edument', '/bilsem'].includes(url.pathname))
+  throw new Error('Yalnızca yerel edument veritabanı oluşturulabilir.');
+const databaseName = url.pathname.slice(1);
 url.pathname = '/postgres';
 const db = new Database({ datasourceUrl: url.toString() });
-db.$executeRawUnsafe('CREATE DATABASE bilsem')
+db.$executeRawUnsafe(`CREATE DATABASE "${databaseName}"`)
   .then(() => console.log('Yerel veritabanı oluşturuldu.'))
   .catch((e) => {
     if (e.meta?.code === '42P04') console.log('Veritabanı zaten mevcut.');

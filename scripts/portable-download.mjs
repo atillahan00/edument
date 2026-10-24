@@ -5,14 +5,14 @@ import { Readable } from 'node:stream';
 fs.mkdirSync('.runtime/downloads', { recursive: true });
 async function download(url, file) {
   if (fs.existsSync(file)) return;
-  const response = await fetch(url, { headers: { 'User-Agent': 'BILSEM-Chain' } });
+  const response = await fetch(url, { headers: { 'User-Agent': 'EduMent' } });
   if (!response.ok) throw new Error(`${response.status}: ${url}`);
   await pipeline(Readable.fromWeb(response.body), fs.createWriteStream(file));
   console.log(`İndirildi: ${file}`);
 }
 const java = await fetch(
   'https://api.adoptium.net/v3/assets/latest/25/hotspot?architecture=x64&image_type=jdk&os=windows',
-  { headers: { 'User-Agent': 'BILSEM-Chain' } },
+  { headers: { 'User-Agent': 'EduMent' } },
 ).then((r) => r.json());
 const tasks = [
   [

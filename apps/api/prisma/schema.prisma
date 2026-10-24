@@ -300,6 +300,19 @@ model ApplicationSetting {
   key String @id
   value Json
 }
+
+// Append-only research observations. No student names, documents or request bodies.
+model TelemetryEvent {
+  id String @id @default(uuid()) @db.Uuid
+  observedAt DateTime @default(now())
+  environment String
+  runId String @db.Uuid
+  chainId Int
+  kind String
+  data Json
+  @@index([environment, observedAt, id])
+  @@index([kind, observedAt])
+}
 model DemoSeedBatch {
   id String @id @default(uuid()) @db.Uuid
   seed Int

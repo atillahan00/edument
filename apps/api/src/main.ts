@@ -19,20 +19,38 @@ import { MentoringController } from './mentoring.controller';
 import { AdminController } from './admin.controller';
 import { ResearchController } from './research.controller';
 import { ResearchService } from './research.service';
+import { Telemetry } from './telemetry';
+import { MonitorService } from './monitor.service';
+import { TelemetryController } from './telemetry.controller';
 @Module({
-  controllers: [AuthController, RecordsController, MentoringController, AdminController, ResearchController],
+  controllers: [
+    AuthController,
+    RecordsController,
+    MentoringController,
+    AdminController,
+    ResearchController,
+    TelemetryController,
+  ],
   providers: [
     Database,
     RecordsService,
     ChainService,
     StorageService,
     ResearchService,
+    Telemetry,
+    MonitorService,
     { provide: APP_GUARD, useClass: SessionGuard },
   ],
 })
 export class AppModule {}
 export async function start() {
   const app = await NestFactory.create(AppModule, { logger: ['error', 'warn'] });
+  const telemetry = app.get(Telemetry);
+  app.use((_req: any, res: any, next: any) => {
+    const started = performance.now();
+    res.once('finish', () => telemetry.request(performance.now() - started, res.statusCode));
+    next();
+  });
   app.setGlobalPrefix('api/v1');
   app.use(helmet());
   app.use(cookieParser());
@@ -75,10 +93,10 @@ export async function start() {
     SwaggerModule.createDocument(
       app,
       new DocumentBuilder()
-        .setTitle('BILSEM-Chain API')
+        .setTitle('EduMent API')
         .setDescription('Kurum yetkileri, özel belgeler ve blokzincir bütünlük hizmetleri.')
         .setVersion('1.0')
-        .addCookieAuth('bilsem_session')
+        .addCookieAuth('edument_session')
         .build(),
     ),
   );
@@ -96,6 +114,11 @@ export async function start() {
     }
   }, 2500);
   timer.unref();
+  const close = app.close.bind(app);
+  app.close = async () => {
+    clearInterval(timer);
+    await close();
+  };
   app.enableShutdownHooks();
   await app.listen(Number(process.env.API_PORT || 3001), '127.0.0.1');
   console.log(JSON.stringify({ level: 'info', event: 'api.started', port: process.env.API_PORT || 3001 }));

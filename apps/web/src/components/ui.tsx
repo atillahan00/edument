@@ -1,6 +1,6 @@
 'use client';
 import { useState, type ReactNode } from 'react';
-import { CheckCircle2, Clock3, FileCheck2, RefreshCw } from 'lucide-react';
+import { CheckCircle2, Clock3, RefreshCw } from 'lucide-react';
 import { tr, label, date } from '../locales/tr';
 import { api } from '../lib/api';
 export function Notice({ children, error = false }: { children: ReactNode; error?: boolean }) {
@@ -13,9 +13,7 @@ export function Notice({ children, error = false }: { children: ReactNode; error
 export function Empty({ children = tr.empty }: { children?: ReactNode }) {
   return (
     <div className="empty">
-      <FileCheck2 size={34} />
       <h3>{children}</h3>
-      <p>Bilgileriniz eklendiğinde burada görüntülenecek.</p>
     </div>
   );
 }
@@ -59,7 +57,7 @@ export function Panel({
           {action}
         </div>
       )}
-      {children}
+      <div className="panel-body">{children}</div>
     </section>
   );
 }

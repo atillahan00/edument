@@ -1,0 +1,42 @@
+{
+  "at": "2026-09-26T07:26:45.800Z",
+  "validators": 4,
+  "syntheticOnly": true,
+  "checks": [
+    "real transaction lifecycle",
+    "four-node common-height consistency",
+    "valid and tampered fixture",
+    "daily summary",
+    "CSV export",
+    "one node offline and remaining chain progresses"
+  ],
+  "observations": 30,
+  "summary": {
+    "environment": "integration-test",
+    "from": "2026-09-26T06:26:37.493Z",
+    "to": "2026-09-26T07:27:37.493Z",
+    "days": [
+      {
+        "dayUTC": "2026-09-26",
+        "observations": 23,
+        "confirmationEvents": 1,
+        "failureEvents": 0,
+        "retryEvents": 0,
+        "nodeObservations": 8,
+        "unreachableObservations": 0,
+        "validChecks": 1,
+        "mismatchChecks": 1,
+        "unavailableChecks": 0,
+        "collectionWarnings": 0,
+        "meanTotalMs": 2044,
+        "medianTotalMs": 2044,
+        "p95TotalMs": 2044
+      }
+    ],
+    "notes": [
+      "UTC, half-open date range; days without observations are unknown, not healthy.",
+      "Event counts are not an arrival-cohort success rate. Pending jobs and observation gaps must be analyzed separately.",
+      "Confirmation times are when the API observes receipts; resource CPU is API process only."
+    ]
+  }
+}

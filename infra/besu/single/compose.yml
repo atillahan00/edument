@@ -1,4 +1,4 @@
-name: bilsem-chain-single
+name: ${EDUMENT_COMPOSE_SINGLE:-edument-single}
 services:
   node1:
     image: hyperledger/besu:26.8.1

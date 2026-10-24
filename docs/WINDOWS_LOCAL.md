@@ -7,16 +7,16 @@ Docker bulunmadığı için doğrulama sırasında `.runtime` altına yerel geli
 PowerShell:
 
 ```powershell
-$env:BILSEM_NATIVE_ROOT='C:\Users\User\Desktop\BLSEMB~1'
+$env:EDUMENT_NATIVE_ROOT='D:\EduMent'
 .\scripts\portable-postgres.ps1 start
 node scripts/portable-start.mjs besu
 node scripts/portable-start.mjs matcher
 node scripts/portable-start.mjs minio
-pnpm --filter @bilsem/api start
-pnpm --filter @bilsem/web start
+pnpm --filter @edument/api start
+pnpm --filter @edument/web start
 ```
 
-`BLSEMB~1` bu makinedeki aynı proje klasörünün kısa Windows adıdır; başka makinede kopyalanmamalıdır. PostgreSQL paketinin Türkçe yol karakterlerinde hata vermesini önler. Standart Docker kurulumu bu kısa yola ihtiyaç duymaz.
+`D:\EduMent` örnek proje yoludur; EDUMENT_NATIVE_ROOT değerini kendi proje klasörünüze göre ayarlayın. PostgreSQL paketinin Türkçe yol karakterlerinde sorun yaşadığı kurulumlarda klasörün Windows kısa yol adını kullanın. Standart Docker kurulumu bu kısa yola ihtiyaç duymaz.
 
 PostgreSQL durdurma: `.\scripts\portable-postgres.ps1 stop`. Diğer taşınabilir hizmetlerin PID'leri `.runtime/*.pid`, günlükleri `.runtime/logs/` altındadır. Yalnızca bu projeye ait süreçleri durdurun; genel `taskkill /IM node.exe` kullanmayın.
 

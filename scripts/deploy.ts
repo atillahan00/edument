@@ -19,7 +19,7 @@ async function main() {
       fs.readFileSync(
         path.join(
           workspaceRoot,
-          'packages/contracts/artifacts/contracts/BILSEMChainRegistry.sol/BILSEMChainRegistry.json',
+          'packages/contracts/artifacts/contracts/EduMentRegistry.sol/EduMentRegistry.json',
         ),
         'utf8',
       ),
@@ -38,7 +38,7 @@ async function main() {
       blockNumber: receipt.blockNumber,
       transactionHash: receipt.hash,
       timestamp: new Date().toISOString(),
-      abiReference: 'packages/contracts/artifacts/contracts/BILSEMChainRegistry.sol/BILSEMChainRegistry.json',
+      abiReference: 'packages/contracts/artifacts/contracts/EduMentRegistry.sol/EduMentRegistry.json',
     };
     fs.mkdirSync(path.join(workspaceRoot, 'deployments'), { recursive: true });
     const file = path.join(workspaceRoot, 'deployments', `${chainId}.json`);

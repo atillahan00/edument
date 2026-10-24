@@ -2,13 +2,16 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { Wallet } from 'ethers';
-const root = process.env.BILSEM_NATIVE_ROOT || process.cwd();
+const root = process.env.EDUMENT_NATIVE_ROOT || process.env.BILSEM_NATIVE_ROOT || process.cwd();
 const jdk = fs.readdirSync('.runtime/tools').find((n) => n.startsWith('jdk-'));
 const wallets = Array.from(
   { length: 4 },
   (_, i) => new Wallet('0x' + fs.readFileSync(`infra/besu/generated/multi/node${i + 1}/key`, 'utf8').trim()),
 );
+const selected = process.argv[2];
+if (selected && !['1', '2', '3', '4'].includes(selected)) throw new Error('Gecersiz dugum.');
 for (let i = 0; i < 4; i++) {
+  if (selected && Number(selected) !== i + 1) continue;
   const data = path.join(root, '.runtime', `multi-node${i + 1}`);
   fs.mkdirSync(data, { recursive: true });
   const peers = wallets
@@ -43,6 +46,11 @@ for (let i = 0; i < 4; i++) {
     ],
     { cwd: root, windowsHide: true, detached: true, stdio: ['ignore', log, log] },
   );
+  await new Promise((resolve, reject) => {
+    child.once('spawn', resolve);
+    child.once('error', reject);
+  });
+  fs.closeSync(log);
   child.unref();
   fs.writeFileSync(`.runtime/multi-node${i + 1}.pid`, String(child.pid));
   console.log(`Doğrulayıcı ${i + 1} başlatıldı.`);

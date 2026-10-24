@@ -1,6 +1,6 @@
 const { expect } = require('chai');
 const { ethers } = require('hardhat');
-describe('BILSEMChainRegistry', () => {
+describe('EduMentRegistry', () => {
   let registry, admin, writer, other;
   const h = (v) => ethers.id(v);
   const args = (id = 'v1', previous = ethers.ZeroHash, version = 1) => [
@@ -15,7 +15,7 @@ describe('BILSEMChainRegistry', () => {
   beforeEach(async () => {
     [admin, writer, other] = await ethers.getSigners();
     registry = await (
-      await ethers.getContractFactory('BILSEMChainRegistry')
+      await ethers.getContractFactory('EduMentRegistry')
     ).deploy(admin.address, writer.address);
   });
   it('rejects unauthorized writes', async () => {

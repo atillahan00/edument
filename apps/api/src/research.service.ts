@@ -88,7 +88,7 @@ export class ResearchService {
           await this.db.experimentSample.create({ data: { experimentId, content: snapshot } });
           dbTimes.push(performance.now() - start);
           const recordId = '0x' + randomBytes(32).toString('hex');
-          const bytes = Buffer.from(`BILSEM araştırma belgesi ${seed} ${i}`);
+          const bytes = Buffer.from(`EduMent araştırma belgesi ${seed} ${i}`);
           const documentHash = kind === 'DOCUMENT' ? sha256(bytes) : ZeroHash;
           const chainStart = performance.now();
           const transaction = await registry.anchor(

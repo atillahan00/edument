@@ -1,5 +1,5 @@
 {
-  "name": "@bilsem/contracts",
+  "name": "@edument/contracts",
   "private": true,
   "scripts": {
     "compile": "hardhat compile",

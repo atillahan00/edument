@@ -1,6 +1,6 @@
 param([ValidateSet('start','stop')][string]$Action='start')
 $ErrorActionPreference='Stop'
-$taskRoot=if($env:BILSEM_NATIVE_ROOT){$env:BILSEM_NATIVE_ROOT}else{Split-Path -Parent $PSScriptRoot}
+$taskRoot=if($env:EDUMENT_NATIVE_ROOT){$env:EDUMENT_NATIVE_ROOT}elseif($env:BILSEM_NATIVE_ROOT){$env:BILSEM_NATIVE_ROOT}else{Split-Path -Parent $PSScriptRoot}
 $taskPgCtl=Join-Path $taskRoot '.runtime/postgres/bin/pg_ctl.exe'
 $taskPgData=Join-Path $taskRoot '.runtime/pg-data'
 $taskLog=Join-Path $taskRoot '.runtime/logs/postgres.log'

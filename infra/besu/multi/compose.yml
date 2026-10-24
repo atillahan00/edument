@@ -1,4 +1,4 @@
-name: bilsem-chain-multi
+name: ${EDUMENT_COMPOSE_MULTI:-edument-multi}
 x-node: &node
   image: hyperledger/besu:26.8.1
   restart: unless-stopped

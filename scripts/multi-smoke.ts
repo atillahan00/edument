@@ -19,7 +19,7 @@ async function main() {
   const wallet = new Wallet(process.env.BLOCKCHAIN_SIGNER_PRIVATE_KEY!, provider);
   const artifact = JSON.parse(
     fs.readFileSync(
-      'packages/contracts/artifacts/contracts/BILSEMChainRegistry.sol/BILSEMChainRegistry.json',
+      'packages/contracts/artifacts/contracts/EduMentRegistry.sol/EduMentRegistry.json',
       'utf8',
     ),
   );

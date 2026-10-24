@@ -5,6 +5,8 @@ let root = process.cwd();
 while (!fs.existsSync(path.join(root, 'pnpm-workspace.yaml')) && path.dirname(root) !== root)
   root = path.dirname(root);
 dotenv.config({ path: path.join(root, '.env'), quiet: true });
+// Preserve existing integrity references when upgrading a local installation.
+process.env.EDUMENT_PSEUDONYM_SECRET ||= process.env.BILSEM_PSEUDONYM_SECRET;
 export const workspaceRoot = root;
 export function required(key: string) {
   const value = process.env[key];

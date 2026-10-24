@@ -23,3 +23,7 @@ research-output/
 demo-output/
 *.log
 apps/api/generated/
+
+# Machine-specific shortcuts and build output
+*.lnk
+build/

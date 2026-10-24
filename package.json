@@ -1,5 +1,5 @@
 {
-  "name": "bilsem-chain",
+  "name": "edument",
   "version": "0.1.0",
   "private": true,
   "packageManager": "pnpm@11.19.0",
@@ -7,8 +7,8 @@
     "node": ">=22 <25"
   },
   "scripts": {
-    "dev": "concurrently -k -n api,web \"pnpm --filter @bilsem/api dev\" \"pnpm --filter @bilsem/web dev\"",
-    "build": "pnpm --filter @bilsem/api build && pnpm --filter @bilsem/web build",
+    "dev": "concurrently -k -n api,web \"pnpm --filter @edument/api dev\" \"pnpm --filter @edument/web dev\"",
+    "build": "pnpm --filter @edument/api build && pnpm --filter @edument/web build",
     "typecheck": "pnpm -r --if-present typecheck",
     "lint": "eslint apps packages/shared scripts tests && prettier --check .",
     "format": "prettier --write .",
@@ -28,8 +28,8 @@
     "chain:status": "tsx scripts/chain-status.ts",
     "chain:reset-local": "node scripts/infra.mjs reset",
     "chain:generate": "tsx scripts/genesis.ts",
-    "contract:compile": "pnpm --filter @bilsem/contracts compile",
-    "contract:test": "pnpm --filter @bilsem/contracts test",
+    "contract:compile": "pnpm --filter @edument/contracts compile",
+    "contract:test": "pnpm --filter @edument/contracts test",
     "contract:deploy": "tsx scripts/deploy.ts",
     "integrity:check": "tsx scripts/integrity.ts",
     "setup:local": "node scripts/setup.mjs",

@@ -1,8 +1,24 @@
-# BILSEM-Chain
+# EduMent
+
+GitHub deposu: [atillahan00/edument](https://github.com/atillahan00/edument).
+
+Ad değişikliği ve mevcut kurulumlarla uyumluluk: [EduMent geçiş notları](docs/EDUMENT_RENAME.md).
 
 Öğrenci gelişimi, kurum onaylı başarılar ve açıklanabilir mentorluk için Türkçe, yerel araştırma prototipi. PostgreSQL günlük işlemlerin kaynağıdır; Besu yalnızca değişmez bütünlük kanıtlarını tutar. Token, NFT, kripto para veya ücretli yapay zekâ hizmeti içermez.
 
 **Blokzincir, başarının gerçekliğini kanıtlamaz. Yetkili tarafından onaylanan dijital kaydın sonradan değiştirilip değiştirilmediğini gösterir. Tek doğrulayıcı geliştirme ağı Bizans hata toleransı sağlamaz.**
+
+## Windows'ta çift tıkla açma
+
+Proje kökündeki veya dış çalışma klasöründeki **EduMent Ac.cmd** dosyasına çift tıklayın. Menüden **1 — Tek düğüm**, **2 — Çoklu düğüm (4 doğrulayıcı)** veya **0 — İptal** seçin. Servisler hazır olduğunda <http://localhost:3000> açılır. Başlatıcı penceresi kapansa da uygulama arka planda çalışır.
+
+Tekli mod mevcut ağı ve kayıtları kullanır (1337). Çoklu mod ayrı ağı (1338, RPC 8551–8554) ve mevcut veritabanı adına `_multi` eklenerek oluşturulan ayrı veritabanını kullanır. İlk çoklu açılışta dört düğümün yapılandırması, veritabanı tabloları, `.env` içindeki bilgilerle yönetici hesabı ve ağın sözleşmesi hazırlanır. Bu nedenle ilk açılış daha uzun sürer. `.env` değiştirilmez; ağlar arasında kayıtlar kopyalanmaz veya silinmez. Tekli moda dönünce önceki kayıtlarınız görünür.
+
+Mod değiştirmeden önce uygulamadaki işlemlerinizi bitirin. Farklı mod seçildiğinde servisler yeniden başlatılır; aynı mod yeniden seçildiğinde sağlıklı servisler kullanılır. Ağ değişiminden sonra yeniden giriş yapmanız gerekebilir.
+
+**Kapatmak için:** **EduMent Kapat.cmd** dosyasını kullanın. Her iki modun uygulama servisleri ve düğümleri kapatılır, veriler korunur. Tarayıcıyı kapatmak servisleri durdurmaz.
+
+Terminal kullanımı: `node scripts/easy-start.mjs --mode single --no-browser` veya `node scripts/easy-start.mjs --mode multi --no-browser`. `--check` seçeneği yalnızca ön kontrol yapar. `node scripts/easy-stop.mjs --check` kapanacak süreçleri listeler. Hata halinde pencere açık kalır; günlükler `.runtime/logs/` klasöründedir. Başlatıcı mevcut yerel çalışma araçlarını ve derlenmiş sözleşmeyi kullanır; bağımlılık indirmez.
 
 ## Hızlı başlangıç
 
@@ -87,6 +103,8 @@ Varsayılan aktarım sadece veritabanına yazar. Mentorlar kurum doğrulaması; 
 
 ## Araştırma ve model eğitimi
 
+API çalışırken otomatik pilot ölçümleri varsayılan olarak kaydedilir: işlem yaşam döngüsü, düğüm geçmişi, aynı blokta tutarlılık, sınırlı bütünlük kontrolü ve kaynak ölçümleri. Yönetici için günlük özet ve CSV/JSON dışa aktarımı vardır. Kurulum/güncellemede `pnpm db:generate` ve `pnpm db:migrate` çalıştırın. Kapatmak için `TELEMETRY_ENABLED=false` kullanın. Ayarlar ve ölçüm sınırları: [Otomatik ölçümler](docs/AUTOMATIC_MEASUREMENTS.md).
+
 Yönetici **Araştırma Laboratuvarı** sayfasından bütünlük, belge değişikliği, sürüm, ek gecikme, çok düğüm ve sıralama deneylerini çalıştırabilir. Ölçümler JSON/CSV olarak indirilebilir. Çalışan ağ yoksa blokzincir sonucu üretilmez.
 
 ```bash
@@ -118,7 +136,7 @@ pnpm integrity:check
 
 Tarayıcı testinden önce Chromium yükleyin: `node node_modules/@playwright/test/cli.js install chromium`. API, web, veritabanı, MinIO, matcher ve dağıtılmış Besu sözleşmesi bütünleşme testleri için çalışıyor olmalıdır. Bütünleşme testleri `example.invalid` adresli açıkça sentetik geçici kullanıcılar üretir, ardından uygulama verilerini temizler. Zincirde test kanıtları kalır. Test komutlarını üretim ortamına yöneltmeyin.
 
-Derlenmiş uygulamalar: `pnpm --filter @bilsem/api start` ve `pnpm --filter @bilsem/web start`. Öneri hizmeti Docker Compose içinde kalır. `pnpm dev` sadece API ve web geliştirme sunucularını başlatır.
+Derlenmiş uygulamalar: `pnpm --filter @edument/api start` ve `pnpm --filter @edument/web start`. Öneri hizmeti Docker Compose içinde kalır. `pnpm dev` sadece API ve web geliştirme sunucularını başlatır.
 
 ## Bu çalışma ortamında doğrulama
 

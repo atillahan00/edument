@@ -1,9 +1,9 @@
 import './config';
-import { Injectable, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, OnApplicationShutdown } from '@nestjs/common';
 import { PrismaClient } from '../generated/prisma/client';
 @Injectable()
-export class Database extends PrismaClient implements OnModuleDestroy {
-  async onModuleDestroy() {
+export class Database extends PrismaClient implements OnApplicationShutdown {
+  async onApplicationShutdown() {
     await this.$disconnect();
   }
 }
