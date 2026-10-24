@@ -2,10 +2,10 @@
 
 Sağ üstteki **Görünüm** alanı dört tasarım arasında geçiş yapar:
 
-- **Ultra minimal** (varsayılan): üstten gruplanmış gezinme; açık işlem listesi, yan bildirim alanı ve iki sütunlu kompakt ayarlar.
-- **Minimal**: yan gezinme dizini; tek sütunlu çalışma bölümleri ve ayrı ayar sayfası düzeni.
-- **Neobrutalism**: siyah üst başlık, turkuaz numaralı gezinme, büyük tipografi ve sert bölünmüş çalışma alanları.
-- **Glassmorphism**: bağımsız gezinme yüzeyi ve yarı saydam belge alanı; kayan dizin ve ayrılmış ayar sütunu.
+- **Çok sade** (varsayılan): üstten gruplanmış gezinme; açık işlem listesi, yan bildirim alanı ve iki sütunlu kompakt ayarlar.
+- **Sade**: yan gezinme dizini; tek sütunlu çalışma bölümleri ve ayrı ayar sayfası düzeni.
+- **Keskin çizgiler**: siyah üst başlık, turkuaz numaralı gezinme, büyük tipografi ve sert bölünmüş çalışma alanları.
+- **Cam etkisi**: bağımsız gezinme yüzeyi ve yarı saydam belge alanı; kayan dizin ve ayrılmış ayar sütunu.
 
 Tercih bu tarayıcıda saklanır; sayfa değişiminde ve yeniden açılışta korunur. Görünüm değiştirmek sayfayı yenilemez, form değerlerini veya seçili dosyaları temizlemez. Tarayıcı depolamayı engellese bile geçiş çalışır; bu durumda tercih kalıcı olmayabilir.
 
@@ -35,7 +35,7 @@ Görsel düzenleme; rol izinlerini, API çağrılarını, kayıt yapısını, fo
 
 ## Doğrulama
 
-`tests/e2e/design.spec.ts` tema kalıcılığını, form değerlerini, dosya seçimini, mobil taşmaları ve menüleri denetler. Admin testi gerçek yerel oturum kullanır; ayarları kaydetmez. Öğrenci, mentor ve doğrulayıcı görünüm testleri yalnızca tarayıcıdaki örnek yanıtları kullanır; sunucuya kayıt eklemez.
+`tests/e2e/design.spec.ts` tema kalıcılığını, form değerlerini, dosya seçimini, mobil taşmaları ve menüleri denetler. Yönetici testi gerçek yerel oturum kullanır; ayarları kaydetmez. Öğrenci, mentor ve doğrulayıcı görünüm testleri yalnızca tarayıcıdaki örnek yanıtları kullanır; sunucuya kayıt eklemez.
 
 Kurulu Chrome ile çalıştırmak için PowerShell'de:
 

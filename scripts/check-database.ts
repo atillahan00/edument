@@ -5,10 +5,10 @@ async function check() {
   try {
     await db.$queryRaw`SELECT 1`;
     await db.user.findFirst({ select: { id: true } });
-    console.log('Veritabani baglantisi ve kullanici tablosu hazir.');
+    console.log('Veritabanı bağlantısı ve kullanıcı tablosu hazır.');
   } catch {
     console.error(
-      'Veritabanina erisilemiyor. .env DATABASE_URL ayarini ve PostgreSQL durumunu kontrol edin.',
+      'Veritabanına erişilemiyor. .env DATABASE_URL ayarını ve PostgreSQL durumunu kontrol edin.',
     );
     process.exitCode = 1;
   } finally {

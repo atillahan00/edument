@@ -13,5 +13,6 @@
     "chai": "^4.5.0",
     "ethers": "^6.16.0",
     "solc": "0.8.28"
-  }
+  },
+  "description": "EduMent kayıt bütünlüğü akıllı sözleşmesi."
 }

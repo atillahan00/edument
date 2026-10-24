@@ -49,6 +49,6 @@ export function generate(mode = 'single') {
     fs.writeFileSync(path.join(nodeDir, 'static-nodes.json'), JSON.stringify(peers, null, 2));
   }
   fs.writeFileSync(path.join(dir, 'genesis.json'), JSON.stringify(genesis, null, 2));
-  console.log(`${count} doğrulayıcılı DEV-ONLY ağ yapılandırması üretildi.`);
+  console.log(`${count} doğrulayıcılı yalnızca geliştirmeye uygun ağ yapılandırması üretildi.`);
 }
 if (require.main === module) generate(process.argv[2] || process.env.CHAIN_MODE || 'single');

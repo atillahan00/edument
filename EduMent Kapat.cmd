@@ -12,6 +12,6 @@ if errorlevel 1 goto fail
 exit /b 0
 :fail
 echo.
-echo Uygulama kapatilamadi. Yukaridaki hata mesajini kontrol edin.
+echo Uygulama kapatılamadı. Yukarıdaki hata mesajını kontrol edin.
 pause
 exit /b 1

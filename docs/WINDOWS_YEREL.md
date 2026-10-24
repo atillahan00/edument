@@ -1,6 +1,6 @@
-# Bu Windows çalışma alanındaki taşınabilir servisler
+# EduMent Windows yerel servisleri
 
-Docker bulunmadığı için doğrulama sırasında `.runtime` altına yerel geliştirme araçları indirildi. Sistem hizmeti kurulmadı, sistem PATH'i değiştirilmedi. `.runtime` sürüm kontrolü dışında ve indirilen araçlar yeniden dağıtımın zorunlu parçası değildir.
+Geçmiş doğrulama ortamında Docker bulunmadığı için `.runtime` altına yerel geliştirme araçları indirildi. Sistem hizmeti kurulmadı, sistem PATH'i değiştirilmedi. `.runtime` sürüm kontrolü dışında ve indirilen araçlar yeniden dağıtımın zorunlu parçası değildir.
 
 **PostgreSQL'i doğrudan `postgres.exe` veya ayrılmış konsol süreçleriyle başlatmayın.** Bu ortamda alt süreçler görünür konsollar açıp konsol kapandıkça yeniden başlama döngüsüne girdi. Bunun yerine `scripts/portable-postgres.ps1` içindeki `pg_ctl` denetleyicisi ve `Start-Process -WindowStyle Hidden` kullanılır.
 

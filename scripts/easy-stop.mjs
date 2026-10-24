@@ -31,7 +31,7 @@ try {
       }
     }
     if (running && !(process.argv.includes('--from-launcher') && pid === process.ppid))
-      throw new Error('Acilis devam ediyor. Acilis tamamlaninca yeniden kapatin.');
+      throw new Error('Açılış devam ediyor. Açılış tamamlanınca yeniden kapatın.');
   }
   const output = run('powershell.exe', [
     '-NoProfile',
@@ -74,7 +74,7 @@ try {
   // Stop API/web before their backing services. Never terminate by executable name or port.
   targets.sort((a, b) => (a.Name === 'node.exe' ? 0 : 1) - (b.Name === 'node.exe' ? 0 : 1));
   for (const p of targets) {
-    console.log(`${dryRun ? 'Kapatilacak' : 'Kapatiliyor'}: ${p.Name} (${p.ProcessId})`);
+    console.log(`${dryRun ? 'Kapatılacak' : 'Kapatılıyor'}: ${p.Name} (${p.ProcessId})`);
     if (!dryRun) {
       // A parent termination can also remove another target in this snapshot.
       try {
@@ -93,14 +93,14 @@ try {
     console.log(
       dryRun
         ? 'PostgreSQL normal kapatma ile durdurulacak.'
-        : 'PostgreSQL kayitlari diske yazilarak kapatiliyor...',
+        : 'PostgreSQL kayıtları diske yazılarak kapatılıyor...',
     );
     if (!dryRun) run(pgCtl, ['stop', '-D', pgData, '-m', 'fast', '-w', '-t', '45']);
   }
   console.log(
     dryRun
-      ? 'Kapatma kontrolu tamamlandi; servisler degistirilmedi.'
-      : 'EduMent kapatildi. Tarayici sekmesini de kapatabilirsiniz.',
+      ? 'Kapatma kontrolü tamamlandı; servisler değiştirilmedi.'
+      : 'EduMent kapatıldı. Tarayıcı sekmesini de kapatabilirsiniz.',
   );
 } catch (error) {
   console.error(`HATA: ${error.message}`);

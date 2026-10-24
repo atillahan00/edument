@@ -13,9 +13,10 @@ async function download(url, name, checksum) {
   if (checksum) {
     const hash = createHash('sha256');
     for await (const chunk of fs.createReadStream(target)) hash.update(chunk);
-    if (hash.digest('hex') !== checksum.trim().split(/\s/)[0]) throw new Error(`${name}: checksum mismatch`);
+    if (hash.digest('hex') !== checksum.trim().split(/\s/)[0])
+      throw new Error(`${name}: sağlama toplamı eşleşmiyor`);
   }
-  console.log(`${name} downloaded and checked`);
+  console.log(`${name} indirildi ve doğrulandı`);
 }
 const java = await fetch(
   'https://api.adoptium.net/v3/assets/latest/25/hotspot?architecture=x64&image_type=jdk&os=windows',
@@ -23,7 +24,7 @@ const java = await fetch(
 const besuHashResponse = await fetch(
   'https://github.com/besu-eth/besu/releases/download/26.8.1/besu-26.8.1.zip.sha256',
 );
-if (!besuHashResponse.ok) throw new Error('Besu checksum unavailable');
+if (!besuHashResponse.ok) throw new Error('Besu sağlama toplamı alınamadı');
 const besuHash = await besuHashResponse.text();
 await Promise.all([
   download(java[0].binary.package.link, 'java.zip', java[0].binary.package.checksum),

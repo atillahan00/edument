@@ -1,6 +1,6 @@
 # Otomatik pilot ölçümleri
 
-Kurulum: `pnpm db:generate`, `pnpm db:migrate`, ardından API'yi yeniden derleyip başlatın. Migration yalnızca yeni `TelemetryEvent` tablosunu ekler; mevcut kullanıcı ve zincir kayıtlarını dönüştürmez. Eski verilerden geçmiş ölçümler üretilmez.
+Kurulum: `pnpm db:generate`, `pnpm db:migrate`, ardından API'yi yeniden derleyip başlatın. Veritabanı geçişi yalnızca yeni `TelemetryEvent` tablosunu ekler; mevcut kullanıcı ve zincir kayıtlarını dönüştürmez. Eski verilerden geçmiş ölçümler üretilmez.
 
 API ile birlikte otomatik başlar. `TELEMETRY_ENABLED=false` ile kapatılır. Pilot için `TELEMETRY_ENVIRONMENT=pilot`, ayrı test ağı için `experiment` kullanın; ayrı veritabanları ve zincirler tercih edin. `APP_VERSION` alanına dağıtılan kodun sürümünü yazın. Her API başlangıcı ayrı runId taşır.
 

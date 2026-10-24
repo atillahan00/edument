@@ -32,5 +32,6 @@
     "@types/express": "^5.0.6",
     "@types/cookie-parser": "^1.4.10",
     "@types/multer": "^2.0.0"
-  }
+  },
+  "description": "EduMent API ve kurum yetkilendirme hizmeti."
 }

@@ -161,18 +161,16 @@ try {
     for (let i = 0; i < 90; i++) {
       const states = await ready.health();
       if (states.every((s) => s.online && s.validators === 4 && s.block > 0)) break;
-      if (i === 89) throw new Error(`Four Besu nodes did not become ready: ${relative}`);
+      if (i === 89) throw new Error(`Dört Besu düğümü hazır olmadı: ${relative}`);
       await delay(1000);
     }
   } finally {
     ready.destroy();
   }
-  console.log('Four real QBFT validators ready');
+  console.log('Dört gerçek QBFT doğrulayıcısı hazır');
   provider = new JsonRpcProvider('http://127.0.0.1:18551');
   const artifact = JSON.parse(
-    fs.readFileSync(
-      'packages/contracts/artifacts/contracts/EduMentRegistry.sol/EduMentRegistry.json',
-    ),
+    fs.readFileSync('packages/contracts/artifacts/contracts/EduMentRegistry.sol/EduMentRegistry.json'),
   );
   const contract = await new ContractFactory(
     artifact.abi,
@@ -242,7 +240,7 @@ try {
       },
       end() {},
       destroy() {
-        throw new Error('export failed');
+        throw new Error('dışa aktarma başarısız');
       },
     },
   );

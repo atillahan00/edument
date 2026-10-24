@@ -24,7 +24,7 @@ function runNode(args, timeout = 120000) {
     stdio: 'inherit',
     timeout,
   });
-  if (result.error || result.status !== 0) throw new Error('Kurulum adimi tamamlanamadi: ' + args.join(' '));
+  if (result.error || result.status !== 0) throw new Error('Kurulum adımı tamamlanamadı: ' + args.join(' '));
 }
 async function rpc(url, method, params = []) {
   const response = await fetch(url, {
@@ -34,7 +34,7 @@ async function rpc(url, method, params = []) {
     signal: AbortSignal.timeout(5000),
   });
   const body = await response.json();
-  if (!response.ok || body.error) throw new Error('Dugum yanit vermedi.');
+  if (!response.ok || body.error) throw new Error('Düğüm yanıt vermedi.');
   return body.result;
 }
 const alive = (pid) => {
@@ -83,7 +83,7 @@ async function waitFor(name, check, seconds = 120) {
     if (await check()) return;
     await delay(1000);
   } while (Date.now() < end);
-  throw new Error(`${name} hazir olmadi. Kayitlar: ${logs}`);
+  throw new Error(`${name} hazır olmadı. Günlükler: ${logs}`);
 }
 function portable(target) {
   const command =
@@ -109,7 +109,7 @@ function portable(target) {
     timeout: 120000,
   });
   if (result.error || result.status !== 0)
-    throw new Error(`${target} baslatilamadi: ${result.error?.message || result.status}`);
+    throw new Error(`${target} başlatılamadı: ${result.error?.message || result.status}`);
 }
 async function background(name, args, cwd) {
   const log = fs.openSync(path.join(logs, `${name}.log`), 'a');
@@ -132,22 +132,22 @@ async function background(name, args, cwd) {
 }
 async function ensure(name, port, start, check = () => listening(port)) {
   if (await check()) {
-    console.log(`${name} zaten hazir.`);
+    console.log(`${name} zaten hazır.`);
     return;
   }
   if (!(await listening(port))) {
-    console.log(`${name} baslatiliyor...`);
+    console.log(`${name} başlatılıyor...`);
     await start();
   }
   await waitFor(name, check);
-  console.log(`${name} hazir.`);
+  console.log(`${name} hazır.`);
 }
 try {
   const databaseUrl = new URL(process.env.DATABASE_URL);
   if (!['127.0.0.1', 'localhost'].includes(databaseUrl.hostname))
-    throw new Error('Bu baslatici yerel veritabani icindir.');
+    throw new Error('Bu başlatıcı yerel veritabanı içindir.');
   postgresPort = Number(databaseUrl.port || 5432);
-  if (!['single', 'multi'].includes(mode)) throw new Error('Mod single veya multi olmali.');
+  if (!['single', 'multi'].includes(mode)) throw new Error('Mod single veya multi olmalı.');
   process.env.CHAIN_MODE = mode;
   process.env.CHAIN_ID = mode === 'single' ? '1337' : '1338';
   const ports = mode === 'single' ? [8545] : [8551, 8552, 8553, 8554];
@@ -158,7 +158,7 @@ try {
   process.env.CONTRACT_ADDRESS = '';
   if (mode === 'multi') {
     const name = decodeURIComponent(databaseUrl.pathname.slice(1));
-    if (!/^[a-zA-Z_][a-zA-Z0-9_]{0,55}$/.test(name)) throw new Error('Yerel veritabani adi desteklenmiyor.');
+    if (!/^[a-zA-Z_][a-zA-Z0-9_]{0,55}$/.test(name)) throw new Error('Yerel veritabanı adı desteklenmiyor.');
     databaseUrl.pathname = '/' + name + '_multi';
     process.env.DATABASE_URL = databaseUrl.toString();
   }
@@ -173,24 +173,24 @@ try {
     'node_modules/prisma/build/index.js',
     'packages/contracts/artifacts/contracts/EduMentRegistry.sol/EduMentRegistry.json',
   ]) {
-    if (!fs.existsSync(path.join(root, file))) throw new Error(`Kurulum dosyasi eksik: ${file}`);
+    if (!fs.existsSync(path.join(root, file))) throw new Error(`Kurulum dosyası eksik: ${file}`);
   }
   if (process.argv.includes('--check')) {
-    console.log('Baslatici on kontrolleri basarili.');
+    console.log('Başlatıcı ön kontrolleri başarılı.');
   } else {
     if (fs.existsSync(lock)) {
       const pid = Number(fs.readFileSync(lock, 'utf8'));
-      if (alive(pid)) throw new Error('Baslatma zaten devam ediyor. Acik baslatici penceresini bekleyin.');
+      if (alive(pid)) throw new Error('Başlatma zaten devam ediyor. Açık başlatıcı penceresini bekleyin.');
       fs.unlinkSync(lock);
     }
     fs.writeFileSync(lock, String(process.pid), { flag: 'wx' });
     ownsLock = true;
     console.log(
-      mode === 'single' ? 'Tek dugum modu (1337)' : 'Coklu dugum modu: 4 dogrulayici (1338), ayri veritabani',
+      mode === 'single' ? 'Tek düğüm modu (1337)' : 'Çoklu düğüm modu: 4 doğrulayıcı (1338), ayrı veritabanı',
     );
     const previous = fs.existsSync(stateFile) ? JSON.parse(fs.readFileSync(stateFile, 'utf8')) : null;
     if (previous?.mode !== mode) {
-      console.log('Servisler secilen ag icin yeniden baslatiliyor...');
+      console.log('Servisler seçilen ağ için yeniden başlatılıyor...');
       runNode(['scripts/easy-stop.mjs', '--from-launcher']);
     }
     // Failed switches must not leave an old successful mode marker behind.
@@ -214,7 +214,7 @@ try {
       timeout: 30000,
     });
     if (databaseCheck.error || databaseCheck.status !== 0)
-      throw new Error('Veritabani kontrolu basarisiz. Acilis durduruldu.');
+      throw new Error('Veritabanı kontrolü başarısız. Açılış durduruldu.');
     if (mode === 'multi') {
       runNode(['--import', 'tsx', 'scripts/genesis.ts', 'multi']);
       for (let i = 0; i < ports.length; i++) {
@@ -242,13 +242,13 @@ try {
     });
     const genesis = await Promise.all(urls.map((url) => rpc(url, 'eth_getBlockByNumber', ['0x0', false])));
     if (!genesis.every((block) => block.hash === genesis[0].hash))
-      throw new Error('Dugumlar ayni agda degil.');
+      throw new Error('Düğümler aynı ağda değil.');
     process.env.BESU_GENESIS_HASH = genesis[0].hash;
     const deploymentFile = path.join(root, `deployments/${process.env.CHAIN_ID}.json`);
     if (!fs.existsSync(deploymentFile)) runNode(['--import', 'tsx', 'scripts/deploy.ts']);
     const deployment = JSON.parse(fs.readFileSync(deploymentFile, 'utf8'));
     if ((await rpc(urls[0], 'eth_getCode', [deployment.contractAddress, 'latest'])) === '0x') {
-      throw new Error('Kayitli sozlesme bu agda bulunamadi. Mevcut kayitlar korunarak acilis durduruldu.');
+      throw new Error('Kayıtlı sözleşme bu ağda bulunamadı. Mevcut kayıtlar korunarak açılış durduruldu.');
     }
     await ensure(
       'Dosya deposu',
@@ -294,7 +294,7 @@ try {
     );
     fs.writeFileSync(stateFile, JSON.stringify({ mode }));
     console.log(
-      '\nEduMent hazir: http://localhost:3000\nBu pencereyi kapatabilirsiniz. Servisler arka planda calisir.',
+      '\nEduMent hazır: http://localhost:3000\nBu pencereyi kapatabilirsiniz. Servisler arka planda çalışır.',
     );
     if (!process.argv.includes('--no-browser')) {
       const result = spawnSync(
@@ -302,7 +302,7 @@ try {
         ['-NoProfile', '-Command', "Start-Process 'http://localhost:3000'"],
         { windowsHide: true },
       );
-      if (result.error || result.status !== 0) console.log('Tarayicida http://localhost:3000 adresini acin.');
+      if (result.error || result.status !== 0) console.log('Tarayıcıda http://localhost:3000 adresini açın.');
     }
   }
 } catch (error) {

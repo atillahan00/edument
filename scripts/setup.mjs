@@ -17,7 +17,9 @@ if (!fs.existsSync('.env')) {
       'BOOTSTRAP_ADMIN_PASSWORD=DevOnly9!' + randomBytes(16).toString('hex'),
     );
   fs.writeFileSync('.env', value, { mode: 0o600 });
-  console.log('DEV-ONLY sırlar .env dosyasına yazıldı. Yönetici parolasını bu dosyadan okuyun.');
+  console.log(
+    'Yalnızca geliştirmeye uygun sırlar .env dosyasına yazıldı. Yönetici parolasını bu dosyadan okuyun.',
+  );
 }
 if (!process.argv.includes('--env-only'))
   for (const command of [

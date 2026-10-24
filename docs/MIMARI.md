@@ -16,7 +16,7 @@ flowchart LR
 
 `apps/api`: NestJS REST denetleyicileri, Zod girdileri, Prisma erişimi, HTTP-only oturumlar, kurum kapsamlı yetki kontrolü, kanıt deposu ve outbox işçisi. PostgreSQL normal ekranların operasyonel kaynağıdır. Bütünlük düğmesi canlı sözleşme okuması yapar; sıradan listeler blok taramaz.
 
-`services/matcher`: Pydantic ile özellik allowlist'i, deterministik ağırlıklı strateji, isteğe bağlı lojistik regresyon, ayrı sentetik araştırma üretimi. Kimlik, e-posta, biyografi ve hassas nitelikler özellik olarak kullanılmaz. API öğrenci adını hizmete yollamaz.
+`services/matcher`: Pydantic ile izin verilen özellik listesi, deterministik ağırlıklı strateji, isteğe bağlı lojistik regresyon, ayrı sentetik araştırma üretimi. Kimlik, e-posta, biyografi ve hassas nitelikler özellik olarak kullanılmaz. API öğrenci adını hizmete yollamaz.
 
 `packages/contracts`: Solidity 0.8.28, OpenZeppelin AccessControl, London EVM hedefi, Hardhat testleri. `packages/shared`: ortak Zod sözleşmeleri. `packages/demo-data`: çekirdeğin bağımlı olmadığı isteğe bağlı komut paketi.
 
@@ -24,7 +24,7 @@ flowchart LR
 
 Kullanıcı, kurum, üyelik, oturum, izin, görünürlük, öğrenci profili, mentor profili, başarı, sürüm, belge, karar, blokzincir kaydı/işi/işlemi, öneri, bağlantı, görüşme, mesaj, bildirim, geri bildirim, denetim, deney ve gösterim partisi ayrı modellerdir.
 
-Öğrenci ve başarı sürümleri ortak `RecordVersion` tablosunda tür ayrımıyla tutulur. İlgiler, beceriler, hedefler ve mentor özellikleri sınırlandırılmış JSON belgeleridir. Bu, immutable tek belge özetiyle uyuşan pratik bir prototip tercihidir; her özellik için ayrı lookup tablosu kurulmamıştır. İç kimlikler UUID'dir. `(profileId, version)` ve `(achievementId, version)` benzersizdir. Sürüm yazıları serializable işlemdedir.
+Öğrenci ve başarı sürümleri ortak `RecordVersion` tablosunda tür ayrımıyla tutulur. İlgiler, beceriler, hedefler ve mentor özellikleri sınırlandırılmış JSON belgeleridir. Bu, değişmez tek belge özetiyle uyuşan pratik bir prototip tercihidir; her özellik için ayrı başvuru tablosu kurulmamıştır. İç kimlikler UUID'dir. `(profileId, version)` ve `(achievementId, version)` benzersizdir. Sürüm yazıları serializable işlemdedir.
 
 ```mermaid
 sequenceDiagram

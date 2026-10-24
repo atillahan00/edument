@@ -9,7 +9,7 @@ const wallets = Array.from(
   (_, i) => new Wallet('0x' + fs.readFileSync(`infra/besu/generated/multi/node${i + 1}/key`, 'utf8').trim()),
 );
 const selected = process.argv[2];
-if (selected && !['1', '2', '3', '4'].includes(selected)) throw new Error('Gecersiz dugum.');
+if (selected && !['1', '2', '3', '4'].includes(selected)) throw new Error('Geçersiz düğüm.');
 for (let i = 0; i < 4; i++) {
   if (selected && Number(selected) !== i + 1) continue;
   const data = path.join(root, '.runtime', `multi-node${i + 1}`);

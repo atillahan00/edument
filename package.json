@@ -62,5 +62,13 @@
     "vitest": "^3.2.4",
     "@types/node": "^22.19.3",
     "@playwright/test": "^1.57.0"
+  },
+  "description": "EduMent: öğrenci gelişimi, kurum onaylı başarı kayıtları ve açıklanabilir mentor eşleştirmesi.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atillahan00/edument.git"
+  },
+  "bugs": {
+    "url": "https://github.com/atillahan00/edument/issues"
   }
 }

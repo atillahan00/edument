@@ -255,7 +255,7 @@ async function main() {
       2,
     ),
   );
-  console.log('PASS: Gerçek Besu, PostgreSQL, MinIO, API ve matcher kabul senaryosu.');
+  console.log('BAŞARILI: Gerçek Besu, PostgreSQL, MinIO, API ve matcher kabul senaryosu.');
 }
 main()
   .catch((error) => {
